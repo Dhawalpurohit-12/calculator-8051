@@ -1,390 +1,273 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_proj.xsd">
+#include<reg51.h>
+#include <stdio.h>
+#define lcd P2
 
-  <SchemaVersion>1.1</SchemaVersion>
+sbit rs=P3^5;
+sbit rw=P3^6;
+sbit en=P3^7;
 
-  <Header>### uVision Project, (C) Keil Software</Header>
+sbit r1=P1^0;
+sbit r2=P1^1;
+sbit r3=P1^2;
+sbit r4=P1^3;
+sbit c1=P1^4;
+sbit c2=P1^5;
+sbit c3=P1^6;
+sbit c4=P1^7;
+unsigned int typecast(char);
+unsigned char add(unsigned char);
+    unsigned char data1;          
+void lcd_init();
+void cmd(unsigned char );
+void dat(unsigned char );
+lcd_string(unsigned char *);
+void delay(unsigned int );
+void keypad(void);
+void delay1(unsigned int);
+ unsigned int result= 0;
+unsigned char num1=0; 
+unsigned char num2=0; 
+char oper; 
+void lcd_num(unsigned int num);
+void main()
+{
+    lcd_init();
+    while(1) {
+				delay1(10);
+        cmd(0x80);
+        lcd_string("Enter  first key:");
+			cmd(0xC5);
+			keypad();
+			num1=typecast(data1);
+			delay1(100);	
+			
+			keypad();
+				delay1(100);	
+			cmd(0x01);
+			delay1(100);	
+		
+			
+			
+			lcd_string("enter second key");
+			cmd(0xC5);
+			keypad();
+				num2=typecast(data1);
+			delay1(100);	
+			
+			keypad();
+			
+				delay1(100);	
+			cmd(0x01);
+			delay1(100);
+				lcd_string("operator");
+				cmd(0xC5);
+			
+			keypad();
+				oper=data1;
+			delay1(100);	
+			
+			keypad();
+				delay1(100);	
+			cmd(0x01);
+			delay1(100);
+			if (oper == '+')
+        {
+            result = num1 + num2;
 
-  <Targets>
-    <Target>
-      <TargetName>Target 1</TargetName>
-      <ToolsetNumber>0x0</ToolsetNumber>
-      <ToolsetName>MCS-51</ToolsetName>
-      <uAC6>0</uAC6>
-      <TargetOption>
-        <TargetCommonOption>
-          <Device>AT89C51</Device>
-          <Vendor>Microchip</Vendor>
-          <Cpu>IRAM(0-0x7F) IROM(0-0xFFF) CLOCK(24000000)</Cpu>
-          <FlashUtilSpec></FlashUtilSpec>
-          <StartupFile>"LIB\STARTUP.A51" ("Standard 8051 Startup Code")</StartupFile>
-          <FlashDriverDll></FlashDriverDll>
-          <DeviceId>2976</DeviceId>
-          <RegisterFile>REGX51.H</RegisterFile>
-          <MemoryEnv></MemoryEnv>
-          <Cmp></Cmp>
-          <Asm></Asm>
-          <Linker></Linker>
-          <OHString></OHString>
-          <InfinionOptionDll></InfinionOptionDll>
-          <SLE66CMisc></SLE66CMisc>
-          <SLE66AMisc></SLE66AMisc>
-          <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile></SFDFile>
-          <bCustSvd>0</bCustSvd>
-          <UseEnv>0</UseEnv>
-          <BinPath></BinPath>
-          <IncludePath></IncludePath>
-          <LibPath></LibPath>
-          <RegisterFilePath>Atmel\</RegisterFilePath>
-          <DBRegisterFilePath>Atmel\</DBRegisterFilePath>
-          <TargetStatus>
-            <Error>0</Error>
-            <ExitCodeStop>0</ExitCodeStop>
-            <ButtonStop>0</ButtonStop>
-            <NotGenerated>0</NotGenerated>
-            <InvalidFlash>1</InvalidFlash>
-          </TargetStatus>
-          <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>calculator</OutputName>
-          <CreateExecutable>1</CreateExecutable>
-          <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
-          <DebugInformation>1</DebugInformation>
-          <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\Listings\</ListingPath>
-          <HexFormatSelection>0</HexFormatSelection>
-          <Merge32K>0</Merge32K>
-          <CreateBatchFile>0</CreateBatchFile>
-          <BeforeCompile>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopU1X>0</nStopU1X>
-            <nStopU2X>0</nStopU2X>
-          </BeforeCompile>
-          <BeforeMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopB1X>0</nStopB1X>
-            <nStopB2X>0</nStopB2X>
-          </BeforeMake>
-          <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
-          </AfterMake>
-          <SelectedForBatchBuild>0</SelectedForBatchBuild>
-          <SVCSIdString></SVCSIdString>
-        </TargetCommonOption>
-        <CommonProperty>
-          <UseCPPCompiler>0</UseCPPCompiler>
-          <RVCTCodeConst>0</RVCTCodeConst>
-          <RVCTZI>0</RVCTZI>
-          <RVCTOtherData>0</RVCTOtherData>
-          <ModuleSelection>0</ModuleSelection>
-          <IncludeInBuild>1</IncludeInBuild>
-          <AlwaysBuild>0</AlwaysBuild>
-          <GenerateAssemblyFile>0</GenerateAssemblyFile>
-          <AssembleAssemblyFile>0</AssembleAssemblyFile>
-          <PublicsOnly>0</PublicsOnly>
-          <StopOnExitCode>3</StopOnExitCode>
-          <CustomArgument></CustomArgument>
-          <IncludeLibraryModules></IncludeLibraryModules>
-          <ComprImg>1</ComprImg>
-          <BankNo>65535</BankNo>
-        </CommonProperty>
-        <DllOption>
-          <SimDllName>S8051.DLL</SimDllName>
-          <SimDllArguments></SimDllArguments>
-          <SimDlgDll>DP51.DLL</SimDlgDll>
-          <SimDlgDllArguments>-p51</SimDlgDllArguments>
-          <TargetDllName>S8051.DLL</TargetDllName>
-          <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TP51.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-p51</TargetDlgDllArguments>
-        </DllOption>
-        <DebugOption>
-          <OPTHX>
-            <HexSelection>0</HexSelection>
-            <HexRangeLowAddress>0</HexRangeLowAddress>
-            <HexRangeHighAddress>0</HexRangeHighAddress>
-            <HexOffset>0</HexOffset>
-            <Oh166RecLen>16</Oh166RecLen>
-          </OPTHX>
-          <Simulator>
-            <UseSimulator>1</UseSimulator>
-            <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
-            <RestoreBreakpoints>1</RestoreBreakpoints>
-            <RestoreWatchpoints>1</RestoreWatchpoints>
-            <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
-            <RestoreFunctions>1</RestoreFunctions>
-            <RestoreToolbox>1</RestoreToolbox>
-            <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
-          </Simulator>
-          <Target>
-            <UseTarget>0</UseTarget>
-            <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>0</RunToMain>
-            <RestoreBreakpoints>1</RestoreBreakpoints>
-            <RestoreWatchpoints>1</RestoreWatchpoints>
-            <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
-            <RestoreFunctions>0</RestoreFunctions>
-            <RestoreToolbox>1</RestoreToolbox>
-            <RestoreTracepoints>1</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
-          </Target>
-          <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>-1</TargetSelection>
-          <SimDlls>
-            <CpuDll></CpuDll>
-            <CpuDllArguments></CpuDllArguments>
-            <PeripheralDll></PeripheralDll>
-            <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
-          </SimDlls>
-          <TargetDlls>
-            <CpuDll></CpuDll>
-            <CpuDllArguments></CpuDllArguments>
-            <PeripheralDll></PeripheralDll>
-            <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
-            <Driver></Driver>
-          </TargetDlls>
-        </DebugOption>
-        <Utilities>
-          <Flash1>
-            <UseTargetDll>0</UseTargetDll>
-            <UseExternalTool>0</UseExternalTool>
-            <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
-            <DriverSelection>-1</DriverSelection>
-          </Flash1>
-          <bUseTDR>0</bUseTDR>
-          <Flash2></Flash2>
-          <Flash3></Flash3>
-          <Flash4></Flash4>
-          <pFcarmOut></pFcarmOut>
-          <pFcarmGrp></pFcarmGrp>
-          <pFcArmRoot></pFcArmRoot>
-          <FcArmLst>0</FcArmLst>
-        </Utilities>
-        <Target51>
-          <Target51Misc>
-            <MemoryModel>0</MemoryModel>
-            <RTOS>0</RTOS>
-            <RomSize>2</RomSize>
-            <DataHold>0</DataHold>
-            <XDataHold>0</XDataHold>
-            <UseOnchipRom>0</UseOnchipRom>
-            <UseOnchipArithmetic>0</UseOnchipArithmetic>
-            <UseMultipleDPTR>0</UseMultipleDPTR>
-            <UseOnchipXram>0</UseOnchipXram>
-            <HadIRAM>1</HadIRAM>
-            <HadXRAM>0</HadXRAM>
-            <HadIROM>1</HadIROM>
-            <Moda2>0</Moda2>
-            <Moddp2>0</Moddp2>
-            <Modp2>0</Modp2>
-            <Mod517dp>0</Mod517dp>
-            <Mod517au>0</Mod517au>
-            <Mode2>0</Mode2>
-            <useCB>0</useCB>
-            <useXB>0</useXB>
-            <useL251>0</useL251>
-            <useA251>0</useA251>
-            <Mx51>0</Mx51>
-            <ModC812>0</ModC812>
-            <ModCont>0</ModCont>
-            <Lp51>0</Lp51>
-            <useXBS>0</useXBS>
-            <ModDA>0</ModDA>
-            <ModAB2>0</ModAB2>
-            <Mx51P>0</Mx51P>
-            <hadXRAM2>0</hadXRAM2>
-            <uocXram2>0</uocXram2>
-            <hadXRAM3>0</hadXRAM3>
-            <ModC2>0</ModC2>
-            <ModH2>0</ModH2>
-            <Mdu_R515>0</Mdu_R515>
-            <Mdu_F120>0</Mdu_F120>
-            <Psoc>0</Psoc>
-            <hadIROM2>0</hadIROM2>
-            <hadIROM3>0</hadIROM3>
-            <ModSmx2>0</ModSmx2>
-            <cBanks>0</cBanks>
-            <xBanks>0</xBanks>
-            <OnChipMemories>
-              <RCB>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x10000</Size>
-              </RCB>
-              <RXB>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </RXB>
-              <Ocm1>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm1>
-              <Ocm2>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm2>
-              <Ocm3>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm3>
-              <Ocr1>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocr1>
-              <Ocr2>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocr2>
-              <Ocr3>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocr3>
-              <IRO>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x1000</Size>
-              </IRO>
-              <IRA>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x80</Size>
-              </IRA>
-              <XRA>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </XRA>
-              <XRA512>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </XRA512>
-              <IROM512>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </IROM512>
-              <XRA513>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </XRA513>
-              <IROM513>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </IROM513>
-            </OnChipMemories>
-          </Target51Misc>
-          <C51>
-            <RegisterColoring>0</RegisterColoring>
-            <VariablesInOrder>0</VariablesInOrder>
-            <IntegerPromotion>1</IntegerPromotion>
-            <uAregs>0</uAregs>
-            <UseInterruptVector>1</UseInterruptVector>
-            <Fuzzy>3</Fuzzy>
-            <Optimize>8</Optimize>
-            <WarningLevel>2</WarningLevel>
-            <SizeSpeed>1</SizeSpeed>
-            <ObjectExtend>1</ObjectExtend>
-            <ACallAJmp>0</ACallAJmp>
-            <InterruptVectorAddress>0</InterruptVectorAddress>
-            <VariousControls>
-              <MiscControls></MiscControls>
-              <Define></Define>
-              <Undefine></Undefine>
-              <IncludePath></IncludePath>
-            </VariousControls>
-          </C51>
-          <Ax51>
-            <UseMpl>0</UseMpl>
-            <UseStandard>1</UseStandard>
-            <UseCase>0</UseCase>
-            <UseMod51>0</UseMod51>
-            <VariousControls>
-              <MiscControls></MiscControls>
-              <Define></Define>
-              <Undefine></Undefine>
-              <IncludePath></IncludePath>
-            </VariousControls>
-          </Ax51>
-          <Lx51>
-            <useFile>0</useFile>
-            <linkonly>0</linkonly>
-            <UseMemoryFromTarget>1</UseMemoryFromTarget>
-            <CaseSensitiveSymbols>0</CaseSensitiveSymbols>
-            <WarningLevel>2</WarningLevel>
-            <DataOverlaying>1</DataOverlaying>
-            <OverlayString></OverlayString>
-            <MiscControls></MiscControls>
-            <DisableWarningNumbers></DisableWarningNumbers>
-            <LinkerCmdFile></LinkerCmdFile>
-            <Assign></Assign>
-            <ReserveString></ReserveString>
-            <CClasses></CClasses>
-            <UserClasses></UserClasses>
-            <CSection></CSection>
-            <UserSection></UserSection>
-            <CodeBaseAddress></CodeBaseAddress>
-            <XDataBaseAddress></XDataBaseAddress>
-            <PDataBaseAddress></PDataBaseAddress>
-            <BitBaseAddress></BitBaseAddress>
-            <DataBaseAddress></DataBaseAddress>
-            <IDataBaseAddress></IDataBaseAddress>
-            <Precede></Precede>
-            <Stack></Stack>
-            <CodeSegmentName></CodeSegmentName>
-            <XDataSegmentName></XDataSegmentName>
-            <BitSegmentName></BitSegmentName>
-            <DataSegmentName></DataSegmentName>
-            <IDataSegmentName></IDataSegmentName>
-          </Lx51>
-        </Target51>
-      </TargetOption>
-      <Groups>
-        <Group>
-          <GroupName>Source Group 1</GroupName>
-          <Files>
-            <File>
-              <FileName>MAIN.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\MAIN.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-      </Groups>
-    </Target>
-  </Targets>
+            cmd(0x01); 
+            lcd_string("Result:");
+            cmd(0xC0); 
+            lcd_num(result);
+					delay1(10);
+					cmd(0x01); 
+					num1=0;
+					num2=0;
+					oper=0;
+					delay1(10);
+        }
+				 if(oper == '-'){
+				
+        
+            result = num1 - num2;
 
-</Project>
+            cmd(0x01); 
+            lcd_string("Result:");
+            cmd(0xC0); 
+            lcd_num(result);
+					delay1(10);
+					cmd(0x01); 
+					num1=0;
+					num2=0;
+					oper=0;
+					delay1(10);
+        }
+				 if(oper == '*'){
+				
+        
+            result = num1 * num2;
+
+            cmd(0x01); 
+            lcd_string("Result:");
+            cmd(0xC0); 
+            lcd_num(result);
+					delay1(10);
+					cmd(0x01); 
+					num1=0;
+					num2=0;
+					oper=0;
+					delay1(10);
+        }
+			 if(oper == '/'){
+				
+        
+            result = num1 /num2;
+
+            cmd(0x01); 
+            lcd_string("Result:");
+            cmd(0xC0); 
+            lcd_num(result);
+					delay1(10);
+					cmd(0x01); 
+					num1=0;
+					num2=0;
+					oper=0;
+					delay1(10);
+        }
+				
+			
+				
+				
+		
+    }
+}
+
+void keypad()
+{		
+    c1=c2=c3=c4=1;
+    r1=0;r2=1;r3=1;r4=1;
+    if(c1==0){
+        while(c1==0);
+        dat('7');	
+				
+    } else if(c2==0) {
+        while(c2==0);
+        dat('8');	
+    } else if(c3==0) {
+        while(c3==0);
+        dat('9');	
+    } else if(c4==0) {
+        while(c4==0);
+        dat('/');	
+    }
+
+    r1=1;r2=0;r3=1;r4=1;
+    if(c1==0){
+        while(c1==0);
+        dat('4');	
+    } else if(c2==0) {
+        while(c2==0);
+        dat('5');	
+    } else if(c3==0) {
+        while(c3==0);
+        dat('6');	
+    } else if(c4==0) {
+        while(c4==0);
+        dat('*');	
+    }
+
+    r1=1;r2=1;r3=0;r4=1;
+    if(c1==0){
+        while(c1==0);
+        dat('1');	
+    } else if(c2==0) {
+        while(c2==0);
+        dat('2');
+    } else if(c3==0) {
+        while(c3==0);
+        dat('3');	
+    } else if(c4==0) {
+        while(c4==0);
+        dat('-');	
+    }
+
+    r1=1;r2=1;r3=1;r4=0;	
+    if(c1==0){
+        while(c1==0);
+        cmd(0x01);
+    } else if(c2==0) {
+        while(c2==0);
+        dat('0');	
+    } else if(c3==0) {
+        while(c3==0);
+        dat('=');	
+    } else if(c4==0) {
+        while(c4==0);
+        dat('+');
+    }
+			
+}
+
+
+void lcd_init()
+{
+        cmd(0x38);
+        cmd(0x0e);
+        cmd(0x06);
+        cmd(0x01);	delay1(100);
+}
+
+void cmd(unsigned char x)
+{
+        lcd=x;
+        rs=0;
+        rw=0;
+        en=1;
+        delay(1000);
+        en=0;
+}
+
+void dat(unsigned char y)
+{  
+        lcd=y;
+        rs=1;
+        rw=0;
+        en=1;
+        delay(1000);
+        en=0;
+	data1=y;
+}
+
+lcd_string(unsigned char *s)
+{
+    while(*s)
+			
+        dat(*s++);
+		delay1(100);
+}
+
+void delay(unsigned int z)
+{
+
+  unsigned int i;
+  for(i=0;i<=z;i++);
+}
+
+void delay1(unsigned int j){
+	unsigned int p=0;
+	int i=0;
+	for(p=0;p<j;p++){
+		for( i=0;i<1000;i++){
+		}
+		
+}
+}
+		unsigned int typecast(char c) {
+    return (unsigned int)(c - '0');
+}
+		
+
+void lcd_num(unsigned int num)
+{
+    unsigned char str[16];
+    sprintf(str, "%u", num);
+    lcd_string(str); }
